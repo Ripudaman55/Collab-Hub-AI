@@ -1,6 +1,6 @@
 # 🤖 CollabAI Hub – AI-Powered Collaboration Platform
 
-Live Site: [captoneaicollaboration.vercel.app](https://captoneaicollaboration.vercel.app)
+Live Site: [captoneaicollaboration.vercel.app](https://collabhubai.vercel.app/)
 
 ---
 
