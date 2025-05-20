@@ -23,13 +23,11 @@ function App() {
     setHasSubmitted(true);
 
     try {
-      
       console.log("scenario:", scenario);
       console.log("agent:", agent);
       console.log("difficulty:", difficulty);
       // In the future, replace this with an actual API call:
-      const response = await 
-      axios.post('/api/recommend', {
+      const response = await axios.post("/api/recommend", {
         scenario,
         agent,
         difficulty,

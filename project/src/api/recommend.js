@@ -1,28 +1,35 @@
 // --- File: /api/recommend.js ---
-import OpenAI from 'openai';
+import OpenAI from "openai";
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
 export default async function handler(req, res) {
-  if (req.method !== 'POST') {
-    return res.status(405).json({ message: 'Method Not Allowed' });
+  if (req.method !== "POST") {
+    return res.status(405).json({ message: "Method Not Allowed" });
   }
-
+  if (
+    !req.body ||
+    !req.body.scenario ||
+    !req.body.agent ||
+    !req.body.difficulty
+  ) {
+    return res.status(400).json({ message: "Invalid request body" });
+  }
   const { scenario, agent, difficulty } = req.body;
-
+  console.log("Received request:", { scenario, agent, difficulty });
   try {
     const completion = await openai.chat.completions.create({
-      model: 'gpt-3.5-turbo',
+      model: "gpt-3.5-turbo",
       messages: [
         {
-          role: 'system',
+          role: "system",
           content:
-            'You are a helpful assistant that suggests AI tools and generates structured prompts for academic–industry collaboration use cases. Use ICE or RCR format where applicable. Respond in a professional and helpful tone.',
+            "You are a helpful assistant that suggests AI tools and generates structured prompts for academic–industry collaboration use cases. Use ICE or RCR format where applicable. Respond in a professional and helpful tone.",
         },
         {
-          role: 'user',
+          role: "user",
           content: `Here is a user scenario:
 
 Scenario: ${scenario}
@@ -56,28 +63,41 @@ Prompt Example:
         },
       ],
       max_tokens: 1000,
-      temperature: 0.7,
+      temperature: 0.5,
     });
 
     const aiResponse = completion.choices[0].message.content;
     const lines = aiResponse.split("\n");
-    const dimensionLine = lines.find(line => line.startsWith('[DIMENSION_QUERY]:'));
-    const dimensionQuery = dimensionLine ? dimensionLine.replace('[DIMENSION_QUERY]:', '').trim() : '';
+    const dimensionLine = lines.find((line) =>
+      line.startsWith("[DIMENSION_QUERY]:")
+    );
+    const dimensionQuery = dimensionLine
+      ? dimensionLine.replace("[DIMENSION_QUERY]:", "").trim()
+      : "";
     const dimensionLink = dimensionQuery
-      ? `https://app.dimensions.ai/discover/publication?search_text=${encodeURIComponent(dimensionQuery)}&search_mode=content`
-      : '';
+      ? `https://app.dimensions.ai/discover/publication?search_text=${encodeURIComponent(
+          dimensionQuery
+        )}&search_mode=content`
+      : "";
+
+    console.log("AI Response:", aiResponse);
+    console.log("Lines:", lines);
+    console.log("Dimension Query:", dimensionQuery);
+    console.log("Dimension Link:", dimensionLink);
 
     const recommendation = {
       id: Date.now(),
-      tool: agent !== 'all' ? agent : lines[0] || 'AI Tool',
-      prompt: aiResponse.replace(dimensionLine, '').trim(),
+      tool: agent !== "all" ? agent : lines[0] || "AI Tool",
+      prompt: aiResponse.replace(dimensionLine, "").trim(),
       difficulty,
       link: dimensionLink,
     };
 
     res.status(200).json([recommendation]);
   } catch (error) {
-    console.error('Error from OpenAI:', error);
-    res.status(500).json({ error: 'Failed to generate recommendation from AI.' });
+    console.error("Error from OpenAI:", error);
+    res
+      .status(500)
+      .json({ error: "Failed to generate recommendation from AI." });
   }
 }
