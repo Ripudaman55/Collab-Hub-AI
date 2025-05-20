@@ -35,7 +35,7 @@ time.sleep(10)
 
 # Log in to Dimensions
 username = driver.find_element(By.NAME, "username")  # Example selector; may need update
-username.send_keys("s224244874@deakin.edu.au")  # Replace with your username
+username.send_keys("u")  # Replace with your username
 
 next = driver.find_element(By.XPATH, '//input[@placeholder="Next"]')
 next.send_keys(Keys.ENTER)
@@ -44,7 +44,7 @@ time.sleep(5)
 
 
 password = driver.find_element(By.NAME, "")  # Example selector; may need update
-password.send_keys("7901705427@Daman")  # Replace with your password
+password.send_keys("")  # Replace with your password
 
 next = driver.find_element(By.XPATH, '//input[@placeholder="Next"]')
 next.send_keys(Keys.ENTER)
