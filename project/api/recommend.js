@@ -49,7 +49,7 @@ Scenarios may include:
 - Academic writing (student summaries, literature reviews)
 - Cross-sector projects (sustainability, smart cities, manufacturing automation)
 
-5. Also, provide a Dimensions.ai search string to use for relevant publications or grants, where it will become the search string for research work so keep is consisce related to scenario — but do not include this in your answer to the user. Output it as a separate string in the format:
+5. Also, provide a Dimensions.ai search string to use for relevant publications or grants, where it will become the search string for research work so keep is consisce related to scenario , dont give too long string just give 2-4 words specific to scenario — but do not include this in your answer to the user. Output it as a separate string in the format:
 
 [DIMENSION_QUERY]: search_text_here
 
