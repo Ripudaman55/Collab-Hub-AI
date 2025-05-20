@@ -5,6 +5,7 @@ import ScenarioForm from "./components/ScenarioForm";
 import RecommendationList from "./components/RecommendationList";
 import AIToolLinks from "./components/AIToolLinks";
 import { Recommendation, Difficulty } from "./types";
+import { Analytics } from "@vercel/analytics/next"
 import { sampleRecommendations } from "./data/sampleData";
 import "./App.css";
 const BASE_URL = import.meta.env.VITE_API_BASE_URL;
