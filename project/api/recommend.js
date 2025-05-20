@@ -26,7 +26,8 @@ export default async function handler(req, res) {
         {
           role: "system",
           content:
-            "You are a helpful assistant that suggests AI tools and generates structured prompts for academic–industry collaboration use cases. Use ICE or RCR format where applicable. Respond in a professional and helpful tone.",
+            "You are a helpful assistant that suggests AI tools and generates structured prompts for academic–industry collaboration use cases. Use ICE or RCR format where applicable. Respond in a professional and helpful tone. If you dont get the input right ask the user to clarify." +
+            "give a little more context. Use the resaerch work given 'https://github.com/Ripudaman55/Capstone-.git' as a reference to prompts and all give user more reliable infomation for promts and all. ",
         },
         {
           role: "user",
@@ -38,7 +39,7 @@ Difficulty: ${difficulty}
 
 Based on the scenario, suggest:
 1. The most suitable AI tool or model (including non-OpenAI options if relevant)
-2. A structured prompt using either ICE (Instruction, Context, Example) or RCR (Role, Constraint, Result) depending on the context.
+2. A structured prompt using either ICE (Instruction, Context, Example) or RCR (Role, Constraint, Result) or just give sentense depending on the context.
 3. Ensure prompt is clear, well-formatted, and directly usable for generative AI.
 4. Avoid generic or vague suggestions.
 
@@ -48,7 +49,7 @@ Scenarios may include:
 - Academic writing (student summaries, literature reviews)
 - Cross-sector projects (sustainability, smart cities, manufacturing automation)
 
-5. Also, provide a Dimensions.ai search string to use for relevant publications or grants — but do not include this in your answer to the user. Output it as a separate string in the format:
+5. Also, provide a Dimensions.ai search string to use for relevant publications or grants, where it will become the search string for research work so keep is consisce related to scenario — but do not include this in your answer to the user. Output it as a separate string in the format:
 
 [DIMENSION_QUERY]: search_text_here
 
@@ -63,7 +64,7 @@ Prompt Example:
         },
       ],
       max_tokens: 1000,
-      temperature: 0.5,
+      temperature: 0.21,
     });
 
     const aiResponse = completion.choices[0].message.content;
