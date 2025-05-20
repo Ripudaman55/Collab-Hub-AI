@@ -7,6 +7,7 @@ import AIToolLinks from "./components/AIToolLinks";
 import { Recommendation, Difficulty } from "./types";
 import { sampleRecommendations } from "./data/sampleData";
 import "./App.css";
+const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 function App() {
   const [recommendations, setRecommendations] = useState<Recommendation[]>([]);
@@ -22,11 +23,13 @@ function App() {
     setHasSubmitted(true);
 
     try {
+      
       console.log("scenario:", scenario);
       console.log("agent:", agent);
       console.log("difficulty:", difficulty);
       // In the future, replace this with an actual API call:
-      const response = await axios.post("http://localhost:3000/api/recommend", {
+      const response = await 
+      axios.post('/api/recommend', {
         scenario,
         agent,
         difficulty,
@@ -81,7 +84,6 @@ function App() {
         {hasSubmitted && !isLoading && (
           <>
             <RecommendationList recommendations={recommendations} />
-            
           </>
         )}
       </main>

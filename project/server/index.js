@@ -6,6 +6,7 @@ import dotenv from "dotenv";
 import OpenAI from "openai";
 import { exec } from "child_process";
 import { Console } from "console";
+import { link } from "fs";
 
 dotenv.config();
 
@@ -107,10 +108,16 @@ Prompt Example:
 
     // Extract hidden Dimensions.ai search string
     // Extract hidden Dimensions.ai search string
-    const dimensionLine = lines.find(line => line.startsWith("[DIMENSION_QUERY]:"));
-    const dimensionQuery = dimensionLine ? dimensionLine.replace("[DIMENSION_QUERY]:", "").trim() : "";
+    const dimensionLine = lines.find((line) =>
+      line.startsWith("[DIMENSION_QUERY]:")
+    );
+    const dimensionQuery = dimensionLine
+      ? dimensionLine.replace("[DIMENSION_QUERY]:", "").trim()
+      : "";
     const dimensionLink = dimensionQuery
-      ? `https://app.dimensions.ai/discover/publication?search_text=${encodeURIComponent(dimensionQuery)}&search_mode=content`
+      ? `https://app.dimensions.ai/discover/publication?search_text=${encodeURIComponent(
+          dimensionQuery
+        )}&search_mode=content`
       : "";
 
     const recommendation = {
@@ -118,6 +125,7 @@ Prompt Example:
       tool: agent !== "all" ? agent : lines[0] || "AI Tool",
       prompt: aiResponse,
       difficulty,
+      link: dimensionLink,
     };
     // Store the latest dimensionQuery for triggering search later
     req.app.locals.lastDimensionQuery = dimensionLink;
@@ -148,7 +156,6 @@ app.post("/api/search-dimensions", (req, res) => {
     message: "Search triggered successfully",
     link: scenario,
   });
-
 });
 
 app.listen(PORT, () => {

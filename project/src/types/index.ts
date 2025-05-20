@@ -3,6 +3,7 @@ export interface Recommendation {
   prompt: string;
   category?: string;
   difficulty: 'basic' | 'intermediate' | 'advanced';
+  link: string | null;
   icon?: string;
 }
 
